@@ -6,6 +6,7 @@ jobs:
     steps:
       - checkout
       - run: echo "Hello"
+      - run: sleep 25
   test:
     docker:
       - image: cimg/base:stable
@@ -13,6 +14,7 @@ jobs:
     steps:
       - checkout
       - run: echo "Hello"
+      - run: sleep 50
 workflows:
   version: 2
   nend-build:
