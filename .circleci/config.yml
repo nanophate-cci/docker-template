@@ -1,4 +1,3 @@
-version: 2
 jobs:
   build:
     docker:
@@ -15,6 +14,7 @@ jobs:
       - checkout
       - run: echo "Hello"
 workflows:
+  version: 2
   nend-build:
     jobs:
       - build
