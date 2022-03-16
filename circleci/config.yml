@@ -1,0 +1,21 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: cimg/base:stable
+    parallelism: 3 
+    steps:
+      - checkout
+      - run: echo "Hello"
+  test:
+    docker:
+      - image: cimg/base:stable
+    parallelism: 3 
+    steps:
+      - checkout
+      - run: echo "Hello"
+workflows:
+  nend-build:
+    jobs:
+      - build
+      - test
