@@ -22,9 +22,9 @@ workflows:
       - build
       - test
     triggers:
-    - schedule:
-        cron: 09 25 * * *
-        filters:
-          branches:
-            only:
-            - main
+      - schedule:
+          cron: 09 25 * * *
+          filters:
+            branches:
+              only:
+              - main
