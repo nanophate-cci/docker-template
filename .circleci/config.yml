@@ -23,7 +23,7 @@ workflows:
       - test
     triggers:
     - schedule:
-        cron: 00 28 * * *
+        cron: "0 28 * * *"
         filters:
           branches:
             only:
