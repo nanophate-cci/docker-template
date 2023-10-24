@@ -18,6 +18,9 @@ jobs:
       - run: sleep 50
 workflows:
   nend-build:
+    jobs:
+      - build
+      - test
     triggers:
       - schedule:
           cron: "* 9 * * *"
@@ -25,6 +28,3 @@ workflows:
             branches:
               only:
               - main
-    jobs:
-      - build
-      - test
