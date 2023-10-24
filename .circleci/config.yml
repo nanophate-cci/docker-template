@@ -15,7 +15,7 @@ jobs:
     parallelism: 3 
     steps:
       - checkout
-      - run: echo "Hello"
+      - run: echo "Helloaa"
       - run: sleep 50
 workflows:
   nend-build:
