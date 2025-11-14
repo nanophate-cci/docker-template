@@ -14,7 +14,8 @@ jobs:
           upload: false # Don't cheat! 
 
 # Add below this line, do not modify above
-
+      - store_test_results:
+         path: ~/project/results/
 # Add above this line, do not modify below
 
 workflows:
