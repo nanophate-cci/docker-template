@@ -1,37 +1,77 @@
 version: 2.1
 
 jobs:
-  build:
+  build-linux:
     docker:
       - image: cimg/base:2025.11
     steps:
-      - checkout
-      - run: echo "Building complete"
-  test:
-    docker:
-      - image: cimg/base:2025.11
-    steps:
-      - checkout
-      - run: echo "Testing complete"
-  deploy:
-    docker:
-      - image: cimg/base:2025.11
-    steps:
-      - checkout
-      - run: echo "Deploy complete"
+        - run: mkdir -p app/linux
+        - run:
+            name: Generate app
+            command: echo app >> app/linux/app.linux
+        - run: cd ~/project/app && pwd && ls
+        - persist_to_workspace: 
+            root: app
+            paths:
+              - linux
 
-workflows:  
-  build-test-and-deploy:
+  build-windows:
+    docker:
+      - image: cimg/base:2025.11
+    steps:
+        - run: mkdir -p app/windows
+        - run:
+            name: Generate app
+            command: echo app >> app/windows/app.windows
+        - run: cd ~/project/app && pwd && ls
+        - persist_to_workspace: 
+            root: app
+            paths:
+              - windows
+
+  build-mac:
+      docker:
+        - image: cimg/base:2025.11
+      steps:
+        - run: mkdir -p app/mac
+        - run:
+            name: Generate app
+            command: echo app >> app/mac/app.mac
+        - run: cd ~/project/app && pwd && ls
+        - persist_to_workspace: 
+            root: app
+            paths:
+              - mac
+
+  deploy:
+      docker:
+        - image: cimg/base:2025.11
+      steps:
+        - attach_workspace:
+            at: app
+        - run:
+            name: Verify all builds
+            command: |
+              echo "Checking workspace contents..."
+              ls -la app/
+              echo "Linux build:"
+              ls -la app/linux/
+              echo "Windows build:"
+              ls -la app/windows/
+              echo "Mac build:"
+              ls -la app/mac/
+        - store_artifacts:
+            path: app
+            destination: apps
+
+workflows:
+  build_and_deploy:
     jobs:
-      - build
-      - test:
-          requires:
-            - build
+      - build-linux
+      - build-mac
+      - build-windows
       - deploy:
           requires:
-            - test
-          filters:
-            tags:
-              only: /^beta-.*/
-            branches:
-              ignore: /.*/
+            - build-linux
+            - build-mac
+            - build-windows
