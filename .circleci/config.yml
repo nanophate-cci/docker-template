@@ -4,6 +4,11 @@ jobs:
   build:
     docker:
       - image: cimg/base:2025.11
+      - image: cimg/postgres:14.0
+        environment:
+          POSTGRES_USER: circleci
+          POSTGRES_DB: circle_test
+          POSTGRES_PASSWORD: password
     steps:
       - checkout # check out the code in the project directory
       - run: echo "hello world" # run the `echo` command
